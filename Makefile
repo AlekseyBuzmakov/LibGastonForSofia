@@ -1,30 +1,37 @@
 GCC=g++ -O3
-ALLFILES=main.cpp database.cpp database.h misc.h patterntree.cpp patterntree.h closeleg.cpp closeleg.h patterngraph.cpp patterngraph.h graphstate.cpp graphstate.h  
-OBJS=main.o database.o path.o legoccurrence.o patterntree.o patterngraph.o closeleg.o graphstate.o 
-gaston: $(OBJS)
-	$(GCC) -o gaston $(OBJS) 
+ObjDir = obj
+SrcDir = src
+CPPS=main.cpp database.cpp patterntree.cpp closeleg.cpp patterngraph.cpp graphstate.cpp legoccurrence.cpp path.cpp
+OBJS=$(patsubst %.cpp, $(ObjDir)/%.o, $(CPPS))
+gaston: prepare $(OBJS)
+	$(GCC) -o bin/Release/gaston $(OBJS) 
 clean:
-	rm $(OBJS); rm gaston
-database.o: database.cpp database.h
-	$(GCC) -c database.cpp
-database.h: legoccurrence.h misc.h
-patterntree.o: patterntree.cpp patterntree.h patterngraph.h graphstate.h
-	$(GCC) -c patterntree.cpp
-patterntree.h: misc.h database.h legoccurrence.h path.h closeleg.h
-patterngraph.o: patterngraph.cpp patterngraph.h graphstate.h
-	$(GCC) -c patterngraph.cpp
-patterngraph.h: closeleg.h
-main.o: misc.h database.h main.cpp path.h graphstate.h
-	$(GCC) -c main.cpp
-legoccurrence.o: legoccurrence.h legoccurrence.cpp closeleg.h database.h graphstate.h
-	$(GCC) -c legoccurrence.cpp
-legoccurrence.h: misc.h
-closeleg.o: closeleg.cpp closeleg.h misc.h
-	$(GCC) -c closeleg.cpp
-closeleg.h: misc.h legoccurrence.h
-path.o: path.cpp path.h patterntree.h patterngraph.h graphstate.h
-	$(GCC) -c path.cpp
-path.h: misc.h database.h legoccurrence.h closeleg.h
-graphstate.o: graphstate.cpp graphstate.h database.h misc.h
-	$(GCC) -c graphstate.cpp
-graphstate.h: misc.h 
+	rm $(OBJS); rm bin/Release/gaston
+
+prepare:
+	test -d $(ObjDir) || mkdir $(ObjDir)
+	test -d bin || mkdir bin
+	test -d bin/Release || mkdir bin/Release
+$(ObjDir)/database.o: $(SrcDir)/database.cpp $(SrcDir)/database.h
+	$(GCC) -c $(SrcDir)/database.cpp -o $(ObjDir)/database.o
+database.h: $(SrcDir)/legoccurrence.h $(SrcDir)/misc.h
+$(ObjDir)/patterntree.o: $(SrcDir)/patterntree.cpp $(SrcDir)/patterntree.h $(SrcDir)/patterngraph.h $(SrcDir)/graphstate.h
+	$(GCC) -c $(SrcDir)/patterntree.cpp -o $(ObjDir)/patterntree.o
+patterntree.h: $(SrcDir)/misc.h $(SrcDir)/database.h $(SrcDir)/legoccurrence.h $(SrcDir)/path.h $(SrcDir)/closeleg.h
+$(ObjDir)/patterngraph.o: $(SrcDir)/patterngraph.cpp $(SrcDir)/patterngraph.h $(SrcDir)/graphstate.h
+	$(GCC) -c $(SrcDir)/patterngraph.cpp -o $(ObjDir)/patterngraph.o
+patterngraph.h: $(SrcDir)/closeleg.h
+$(ObjDir)/main.o: $(SrcDir)/misc.h $(SrcDir)/database.h $(SrcDir)/main.cpp $(SrcDir)/path.h $(SrcDir)/graphstate.h
+	$(GCC) -c $(SrcDir)/main.cpp -o $(ObjDir)/main.o
+$(ObjDir)/legoccurrence.o: $(SrcDir)/legoccurrence.h $(SrcDir)/legoccurrence.cpp $(SrcDir)/closeleg.h $(SrcDir)/database.h $(SrcDir)/graphstate.h
+	$(GCC) -c $(SrcDir)/legoccurrence.cpp -o $(ObjDir)/legoccurrence.o
+legoccurrence.h: $(SrcDir)/misc.h
+$(ObjDir)/closeleg.o: $(SrcDir)/closeleg.cpp $(SrcDir)/closeleg.h $(SrcDir)/misc.h
+	$(GCC) -c $(SrcDir)/closeleg.cpp -o $(ObjDir)/closeleg.o
+$(SrcDir)/closeleg.h: $(SrcDir)/misc.h $(SrcDir)/legoccurrence.h
+$(ObjDir)/path.o: $(SrcDir)/path.cpp $(SrcDir)/path.h $(SrcDir)/patterntree.h $(SrcDir)/patterngraph.h $(SrcDir)/graphstate.h
+	$(GCC) -c $(SrcDir)/path.cpp -o $(ObjDir)/path.o
+$(SrcDir)/path.h: $(SrcDir)/misc.h $(SrcDir)/database.h $(SrcDir)/legoccurrence.h $(SrcDir)/closeleg.h
+$(ObjDir)/graphstate.o: $(SrcDir)/graphstate.cpp $(SrcDir)/graphstate.h $(SrcDir)/database.h $(SrcDir)/misc.h
+	$(GCC) -c $(SrcDir)/graphstate.cpp -o $(ObjDir)/graphstate.o
+$(SrcDir)/graphstate.h: $(SrcDir)/misc.h 
