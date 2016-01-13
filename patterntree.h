@@ -10,6 +10,9 @@
 #include "path.h"
 #include "closeleg.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 using namespace std;
 
 struct Tuple {
@@ -63,10 +66,12 @@ class PatternTree {
     friend void fillMatrix ( int **A, int &nextnode, int rootnode, NodeLabel rootlabel, 
                   int startpos, int endpos, PatternTree &patterntree );
     NodeLabel tree1rootlabel, tree2rootlabel;
-    EdgeLabel rootpathlabel;
 #endif
 };
 
 #define NONEXTPREFIX ((unsigned int) -1)
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston    EdgeLabel rootpathlabel;
 
 #endif

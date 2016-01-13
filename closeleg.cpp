@@ -4,6 +4,9 @@
 #include "misc.h"
 #include "closeleg.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 CloseLegOccurrences closelegoccurrences;
 
 void addCloseExtensions ( vector<CloseLegPtr> &targetcloselegs, int number ) {
@@ -125,3 +128,7 @@ CloseLegOccurrencesPtr join ( CloseLegOccurrences &closelegoccsdata1, CloseLegOc
   else
     return NULL;
 }
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+

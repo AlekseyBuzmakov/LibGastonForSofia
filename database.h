@@ -9,6 +9,9 @@
 #include "legoccurrence.h"
 #include "misc.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 using namespace std;
 
 typedef short InputEdgeLabel;
@@ -125,5 +128,8 @@ class Database {
 };
 
 extern Database database;
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif

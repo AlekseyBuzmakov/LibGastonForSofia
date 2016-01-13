@@ -6,6 +6,9 @@
 #include "path.h"
 #include "graphstate.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 Path::Path ( NodeLabel startnodelabel ) {
   graphstate.insertStartNode ( startnodelabel );
 
@@ -470,3 +473,7 @@ ostream &operator<< ( ostream &stream, Path &path ) {
   }
   return stream;
 }
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+

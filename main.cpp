@@ -14,6 +14,9 @@
 
 using namespace std;
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 Frequency minfreq = 1;
 Database database;
 Statistics statistics;
@@ -53,7 +56,13 @@ void puti ( FILE *f, int i ) {
   } while ( k );
 }
 
-main ( int argc, char *argv[] ) {
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+
+using namespace LibGaston;
+
+int main ( int argc, char *argv[] ) {
   clock_t t1 = clock ();
   cerr << "GASTON GrAph, Sequences and Tree ExtractiON algorithm" << endl;
   cerr << "Version 1.0 with Occurrence Lists" << endl;
@@ -104,3 +113,4 @@ main ( int argc, char *argv[] ) {
   if ( argc - optind == 3 )
     fclose ( output );
 }
+

@@ -6,6 +6,9 @@
 #include "misc.h"
 #include "legoccurrence.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 struct CloseTuple {
   EdgeLabel label;
   int from;
@@ -54,5 +57,8 @@ void addCloseExtensions ( vector<CloseLegPtr> &targetcloselegs, int number );
 void addCloseExtensions ( vector<CloseLegPtr> &targetcloselegs, vector<CloseLegPtr> &sourcecloselegs, LegOccurrences &sourceoccs );
 CloseLegOccurrencesPtr join ( LegOccurrences &legoccsdata, CloseLegOccurrences &closelegoccsdata );
 CloseLegOccurrencesPtr join ( CloseLegOccurrences &closelegoccsdata1, CloseLegOccurrences &closelegoccsdata2 );
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif

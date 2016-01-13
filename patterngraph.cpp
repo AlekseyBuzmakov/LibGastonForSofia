@@ -3,6 +3,9 @@
 #include "patterngraph.h"
 #include "graphstate.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 void PatternGraph::init ( vector<CloseLegPtr> &closelegssource, int legindex ) {
   closetuples.push_back ( closelegssource[legindex]->tuple );
   frequency = closelegssource[legindex]->occurrences.frequency;
@@ -60,3 +63,7 @@ PatternGraph::~PatternGraph () {
   for ( int i = 0; i < closelegs.size (); i++ )
     delete closelegs[i];
 }
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+

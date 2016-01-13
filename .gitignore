@@ -2,6 +2,7 @@
 bin
 obj
 .objs
+*.o
 
 # rapidjson folder that is taken from other repo
 rapidjson/
@@ -30,3 +31,5 @@ GTAGS
 \**\*
 \#*\#
 
+#Main file
+gaston

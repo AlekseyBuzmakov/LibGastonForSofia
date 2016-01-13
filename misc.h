@@ -6,6 +6,9 @@
 #include <stdio.h>
 using namespace std;
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 typedef unsigned char EdgeLabel; // combined node-edge label of the input file.
 typedef unsigned char NodeLabel;
 typedef unsigned short NodeId;
@@ -54,5 +57,8 @@ class Statistics {
 };
 
 extern Statistics statistics;
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif

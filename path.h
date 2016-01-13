@@ -8,7 +8,9 @@
 #include "database.h"
 #include "legoccurrence.h"
 #include "closeleg.h"
-//#include "patterntree.h"
+
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
 
 using namespace std;
 
@@ -46,5 +48,8 @@ class Path {
 
     friend ostream &operator<< ( ostream &stream, Path &path );
 };
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif

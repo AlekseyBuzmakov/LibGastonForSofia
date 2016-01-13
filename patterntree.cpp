@@ -5,6 +5,9 @@
 #include "graphstate.h"
 #include <algorithm>
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 inline void PatternTree::addLeg ( NodeId connectingnode, const int depth, const EdgeLabel edgelabel, LegOccurrences &legoccurrences ) {
   LegPtr leg = new Leg;
   leg->tuple.depth = depth;
@@ -867,3 +870,7 @@ void PatternTree::checkIfIndeedNormal () {
       cout << "NOT NORMAL: lower path than possible (2)" << endl;
   }
 }
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+

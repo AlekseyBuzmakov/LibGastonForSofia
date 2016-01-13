@@ -5,6 +5,9 @@
 #include "database.h"
 #include "graphstate.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 vector<LegOccurrences> candidatelegsoccurrences; // for each frequent possible edge, the occurrences found, used by extend
 LegOccurrences legoccurrences;
 
@@ -360,3 +363,7 @@ void sanityCheck ( LegOccurrencesPtr legoccurrencesptr ) {
 }
 
 */
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+

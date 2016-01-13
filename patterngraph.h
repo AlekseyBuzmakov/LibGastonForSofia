@@ -5,6 +5,9 @@
 #include <vector>
 #include "closeleg.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 using namespace std;
 
 class PatternGraph {
@@ -25,5 +28,8 @@ class PatternGraph {
     ~PatternGraph ();
     void expand ();
 };
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif

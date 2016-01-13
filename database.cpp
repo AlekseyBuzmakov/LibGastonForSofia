@@ -4,6 +4,9 @@
 #include <algorithm>
 #include <iostream>
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 ostream &operator<< ( ostream &stream, DatabaseTreeEdge &databasetreeedge ) {
   stream << "DatabaseTreeEdge; edgelabel: " << databasetreeedge.edgelabel << "; tonode: " << databasetreeedge.tonode << endl;
   return stream;
@@ -305,3 +308,7 @@ Database::~Database () {
   for ( int i = 0; i < trees.size (); i++ )
     delete trees[i];
 }
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
+

@@ -6,6 +6,9 @@
 #include <vector>
 #include "misc.h"
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 using namespace std;
 
 typedef unsigned int OccurrenceId;
@@ -52,5 +55,8 @@ void extend ( LegOccurrences &legoccurrencesdata ); // fills the global arrays a
 void extend ( LegOccurrences &legoccurrencesdata, EdgeLabel minlabel, EdgeLabel neglect );
 
 void sanityCheck ( LegOccurrencesPtr legoccurrencesptr );
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif

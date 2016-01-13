@@ -10,6 +10,9 @@
 #include "patterntree.h"
 using namespace std;
 
+namespace LibGaston {
+////////////////////////////////////////////////////////////////////////
+
 typedef unsigned int Mark;
 
 class GraphState;
@@ -83,5 +86,8 @@ class GraphState {
     NodeId lastNode () const { return nodes.size () - 1; }
     void print ( FILE *f );
 };
+
+/////////////////////////////////////////////////////////////////////
+} // end of namespace LibGaston
 
 #endif
