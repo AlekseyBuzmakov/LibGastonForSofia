@@ -1,8 +1,11 @@
-GCC=g++ -O3
 ObjDir = obj
 SrcDir = src
-CPPS=main.cpp database.cpp patterntree.cpp closeleg.cpp patterngraph.cpp graphstate.cpp legoccurrence.cpp path.cpp
+IncDirs = -Iinc/
+CPPS=LibGastonForSofia.cpp database.cpp patterntree.cpp closeleg.cpp patterngraph.cpp graphstate.cpp legoccurrence.cpp path.cpp
 OBJS=$(patsubst %.cpp, $(ObjDir)/%.o, $(CPPS))
+
+GCC=g++ -O3 $(IncDirs)
+
 gaston: prepare $(OBJS)
 	$(GCC) -o bin/Release/gaston $(OBJS) 
 clean:
@@ -21,8 +24,8 @@ patterntree.h: $(SrcDir)/misc.h $(SrcDir)/database.h $(SrcDir)/legoccurrence.h $
 $(ObjDir)/patterngraph.o: $(SrcDir)/patterngraph.cpp $(SrcDir)/patterngraph.h $(SrcDir)/graphstate.h
 	$(GCC) -c $(SrcDir)/patterngraph.cpp -o $(ObjDir)/patterngraph.o
 patterngraph.h: $(SrcDir)/closeleg.h
-$(ObjDir)/main.o: $(SrcDir)/misc.h $(SrcDir)/database.h $(SrcDir)/main.cpp $(SrcDir)/path.h $(SrcDir)/graphstate.h
-	$(GCC) -c $(SrcDir)/main.cpp -o $(ObjDir)/main.o
+$(ObjDir)/LibGastonForSofia.o: $(SrcDir)/misc.h $(SrcDir)/database.h $(SrcDir)/LibGastonForSofia.cpp $(SrcDir)/path.h $(SrcDir)/graphstate.h
+	$(GCC) -c $(SrcDir)/LibGastonForSofia.cpp -o $(ObjDir)/LibGastonForSofia.o
 $(ObjDir)/legoccurrence.o: $(SrcDir)/legoccurrence.h $(SrcDir)/legoccurrence.cpp $(SrcDir)/closeleg.h $(SrcDir)/database.h $(SrcDir)/graphstate.h
 	$(GCC) -c $(SrcDir)/legoccurrence.cpp -o $(ObjDir)/legoccurrence.o
 legoccurrence.h: $(SrcDir)/misc.h

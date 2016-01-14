@@ -1,5 +1,10 @@
-// main.cpp
-// Siegfried Nijssen, snijssen@liacs.nl, jan 2004.
+// LibGastonForSofia.cpp
+// Aleksey Buzmakov, avbuzmakov@hse.ru, jan 2016
+// The file is based on the file main.cpp written by 
+//  Siegfried Nijssen, snijssen@liacs.nl, jan 2004.
+
+#include <LibGastonForSofia.h>
+
 #include <iostream>
 #include <fstream>
 #include "database.h"
@@ -62,41 +67,43 @@ void puti ( FILE *f, int i ) {
 
 using namespace LibGaston;
 
-int main ( int argc, char *argv[] ) {
+bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraphCallback* callback, int maxsizeArg /*= -1*/, TGastonRunningMode mode /*= GRM_All*/ ) {
+  
   clock_t t1 = clock ();
   cerr << "GASTON GrAph, Sequences and Tree ExtractiON algorithm" << endl;
   cerr << "Version 1.0 with Occurrence Lists" << endl;
   cerr << "Siegfried Nijssen, LIACS, 2004" << endl;
-  
-  char opt;
-  while ( ( opt = getopt ( argc, argv, "m:tp" ) ) != -1 ) {
-    switch ( opt ) {
-      case 'm': maxsize = atoi ( optarg ) - 1; break;
-      case 't': phase = 2; break;
-      case 'p': phase = 1; break;
-    }
+
+  // Converting options to internal Gaston representation
+  minfreq = support;
+  if( maxsizeArg > 0 ) {
+    maxsize = maxsizeArg;
   }
-    
-  if ( argc - optind < 2 || argc - optind > 3 ) {
-    cerr << "Parameters: [-m size] [-p] [-t] support input [output]" << endl;
-    return 1;
+  switch( mode ) {
+  case GRM_All:
+    phase = 3;
+    break;
+  case GRM_Trees:
+    phase = 2;
+    break;
+  case GRM_Paths:
+    phase = 1;
+    break;
+  default:
+    return false;
   }
   
-  minfreq = atoi ( argv[optind] );
   cerr << "Read" << endl;
-  FILE *input = fopen ( argv[optind+1], "r" );
-  if ( argc - optind == 3 ) {
-    dooutput = true;
-    output = fopen ( argv[optind+2], "w" );
-  }
+  FILE *input = fopen ( inputFileName, "r" );
   database.read ( input );
   fclose ( input );
+
   cerr << "Edgecount" << endl;
   database.edgecount ();
   cerr << "Reorder" << endl;
   database.reorder ();
 
-  initLegStatics ();
+  initLegStatics();
   graphstate.init ();
   for ( int i = 0; i < database.nodelabels.size (); i++ ) {
     if ( database.nodelabels[i].frequency >= minfreq &&
@@ -106,11 +113,35 @@ int main ( int argc, char *argv[] ) {
     }
   }
 
-  clock_t t2 = clock ();
-
   statistics.print ();
-  cout << "Approximate total runtime: " << ( (float) t2 - t1 ) / CLOCKS_PER_SEC << "s" << endl;
-  if ( argc - optind == 3 )
-    fclose ( output );
 }
 
+// A test wrap-up function for the implementation of the api.
+int main ( int argc, char *argv[] ) {
+  clock_t t1 = clock ();
+
+  char opt;
+  int maxsizeArg = -1;
+  TGastonRunningMode mode = GRM_All;
+
+  while ( ( opt = getopt ( argc, argv, "m:tp" ) ) != -1 ) {
+    switch ( opt ) {
+      case 'm': maxsizeArg = atoi ( optarg ) - 1; break;
+      case 't': mode = GRM_Trees; break;
+      case 'p': mode = GRM_Paths; break;
+    }
+  }
+    
+  if ( argc - optind < 2 || argc - optind > 3 ) {
+    cerr << "Parameters: [-m size] [-p] [-t] support input [output]" << endl;
+    return 1;
+  }
+  
+  const int support = atoi ( argv[optind] );
+  const char* inputFileName = argv[optind+1];
+
+  RunGaston(inputFileName, support, 0, maxsizeArg, mode );
+
+  clock_t t2 = clock ();
+  cout << "Approximate total runtime: " << ( (float) t2 - t1 ) / CLOCKS_PER_SEC << "s" << endl;
+}
