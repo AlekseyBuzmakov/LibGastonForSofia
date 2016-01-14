@@ -7,6 +7,10 @@
 
 #define LibGastonAPI __stdcall
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Enumeration of possible 'Gaston' algorithm modes.
 enum TGastonRunningMode {
   // No limitations on found graphs
@@ -66,5 +70,9 @@ typedef bool (LibGastonAPI *ReportGraphCallback)( const LibGastonGraph* graph );
  * @return is the success of the operation.
  */
 bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraphCallback callback, int maxsize = -1, TGastonRunningMode mode = GRM_All );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
