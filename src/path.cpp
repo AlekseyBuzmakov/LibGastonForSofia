@@ -9,7 +9,9 @@
 namespace LibGaston {
 ////////////////////////////////////////////////////////////////////////
 
-Path::Path ( NodeLabel startnodelabel ) {
+Path::Path ( NodeLabel startnodelabel ) :
+  shouldExpand(true)
+{
   graphstate.insertStartNode ( startnodelabel );
 
   nodelabels.push_back ( startnodelabel );
@@ -75,11 +77,16 @@ Path::Path ( NodeLabel startnodelabel ) {
   
 }
 
-Path::Path ( Path &parentpath, unsigned int legindex ) {
+Path::Path ( Path &parentpath, unsigned int legindex ) :
+  shouldExpand(true)
+{
   PathLeg &leg = (*parentpath.legs[legindex]);
   int positionshift;
   
-  OUTPUT(parentpath.legs[legindex]->occurrences.frequency);
+  shouldExpand = OUTPUT(parentpath.legs[legindex]->occurrences.frequency);
+  if( !shouldExpand ) {
+    return;
+  }
  
   // fill in normalisation information, it seems a lot of code, but in fact it's just a lot
   // of code to efficiently perform one walk through the edge/nodelabels arrays.
@@ -359,6 +366,11 @@ bool Path::isnormal ( EdgeLabel edgelabel ) {
 }
 
 void Path::expand2 () {
+
+  if( !shouldExpand ) {
+    return;
+  }
+
   // does not work for strings with only one node
   statistics.patternsize++;
   if ( statistics.patternsize > statistics.frequenttreenumbers.size () ) {
@@ -387,6 +399,8 @@ void Path::expand2 () {
            isnormal ( closelegs[i]->tuple.label ) ) {
         graphstate.insertEdge ( closelegs[i]->tuple.from, closelegs[i]->tuple.to, closelegs[i]->tuple.label );
         OUTPUT(closelegs[i]->occurrences.frequency);
+	// Does not matter if the graph is needed since it is not growing recursively
+
         int addsize = statistics.patternsize + graphstate.edgessize - graphstate.nodes.size ();
         if ( addsize >= statistics.frequenttreenumbers.size () ) {
           statistics.frequenttreenumbers.resize ( addsize + 1, 0 );
@@ -452,6 +466,10 @@ void Path::expand2 () {
 }
 
 void Path::expand () {
+
+  if( !shouldExpand ) {
+    return;
+  }
 
   for ( int i = 0; i < legs.size (); i++ ) {
     PathTuple &tuple = legs[i]->tuple;

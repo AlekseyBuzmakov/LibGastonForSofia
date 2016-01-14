@@ -219,7 +219,9 @@ int PatternTree::addRightLegs ( Path &path, PathLeg &leg, Tuple &tuple, unsigned
   return i;
 }
 
-PatternTree::PatternTree ( Path &path, unsigned int legindex ) {
+PatternTree::PatternTree ( Path &path, unsigned int legindex ) :
+  shouldExpand( true )
+{
   PathLeg &leg = (*path.legs[legindex]);
   
   OUTPUT(path.legs[legindex]->occurrences.frequency);
@@ -645,10 +647,15 @@ PatternTree::PatternTree ( Path &path, unsigned int legindex ) {
   graphstate.startsecondpath = nextpathstart;
 }
 
-PatternTree::PatternTree ( PatternTree &parenttree, unsigned int legindex ) {
+PatternTree::PatternTree ( PatternTree &parenttree, unsigned int legindex ) :
+  shouldExpand( true )
+{
   Leg &leg = * ( parenttree.legs[legindex] );
     
-  OUTPUT(parenttree.legs[legindex]->occurrences.frequency);
+  shouldExpand = OUTPUT(parenttree.legs[legindex]->occurrences.frequency);
+  if(!shouldExpand) {
+    return;
+  }
 
   addCloseExtensions ( closelegs, parenttree.closelegs, leg.occurrences );
   
@@ -794,6 +801,9 @@ PatternTree::PatternTree ( PatternTree &parenttree, unsigned int legindex ) {
 }
 
 void PatternTree::expand () {
+  if( !shouldExpand ) {
+    return;
+  }
   statistics.patternsize++;
   if ( statistics.patternsize > statistics.frequenttreenumbers.size () ) {
     statistics.frequenttreenumbers.resize ( statistics.patternsize, 0 );

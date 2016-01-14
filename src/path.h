@@ -45,6 +45,7 @@ class Path {
     int frontsymmetry; // which is lower, the front or front reverse?
     int backsymmetry; // which is lower, the back or back reverse?
     int totalsymmetry; // which is lower, from left to right, or the reverse?
+    bool shouldExpand; // should the path be expanded or it is of no use anymore
 
     friend ostream &operator<< ( ostream &stream, Path &path );
 };

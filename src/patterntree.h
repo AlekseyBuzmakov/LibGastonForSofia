@@ -67,6 +67,7 @@ class PatternTree {
                   int startpos, int endpos, PatternTree &patterntree );
     NodeLabel tree1rootlabel, tree2rootlabel;
 #endif
+    bool shouldExpand;
 };
 
 #define NONEXTPREFIX ((unsigned int) -1)
