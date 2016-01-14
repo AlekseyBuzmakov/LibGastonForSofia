@@ -79,7 +79,7 @@ Path::Path ( Path &parentpath, unsigned int legindex ) {
   PathLeg &leg = (*parentpath.legs[legindex]);
   int positionshift;
   
-  OUTPUT(parentpath.legs[legindex]->occurrences.frequency)
+  OUTPUT(parentpath.legs[legindex]->occurrences.frequency);
  
   // fill in normalisation information, it seems a lot of code, but in fact it's just a lot
   // of code to efficiently perform one walk through the edge/nodelabels arrays.
@@ -386,7 +386,7 @@ void Path::expand2 () {
            closelegs[i]->tuple.to == to &&
            isnormal ( closelegs[i]->tuple.label ) ) {
         graphstate.insertEdge ( closelegs[i]->tuple.from, closelegs[i]->tuple.to, closelegs[i]->tuple.label );
-        OUTPUT(closelegs[i]->occurrences.frequency)
+        OUTPUT(closelegs[i]->occurrences.frequency);
         int addsize = statistics.patternsize + graphstate.edgessize - graphstate.nodes.size ();
         if ( addsize >= statistics.frequenttreenumbers.size () ) {
           statistics.frequenttreenumbers.resize ( addsize + 1, 0 );

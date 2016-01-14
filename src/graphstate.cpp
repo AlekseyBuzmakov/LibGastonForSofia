@@ -3,6 +3,9 @@
 #include "graphstate.h"
 #include "database.h"
 #include "misc.h"
+
+#include "assert.h"
+
 #include <queue>
 
 namespace LibGaston {
@@ -1143,6 +1146,46 @@ end2:
   }
 
   return 0;
+}
+
+  // this function is written by analogy with GraphState::print()
+void GraphState::getGraph(LibGastonGraph& graph)
+{
+  graph.VertexCount = nodes.size();
+  graph.Vertices = new VertexLabelType[nodes.size()];
+  for ( int i = 0; i < nodes.size (); i++ ) {
+    graph.Vertices[i] = database.nodelabels[nodes[i].label].inputlabel;
+  }
+  graph.EdgeCount = 0;
+  for ( int i = 0; i < nodes.size (); i++ ) {
+    graph.EdgeCount += nodes[i].edges.size();
+  }
+  assert( (graph.EdgeCount % 2) == 0 );
+  graph.EdgeCount >>= 1 ; // The edges are going in two directions
+  graph.Edges = new LibGastonGraphEdge[graph.EdgeCount];
+  int edgeInd = 0;
+  for ( int i = 0; i < nodes.size (); i++ ) {
+    for ( int j = 0; j < nodes[i].edges.size (); j++ ) {
+      GraphState::GSEdge &edge = nodes[i].edges[j];
+      if ( i >= edge.tonode ) {
+	continue;
+      }
+      assert(edgeInd < graph.EdgeCount);
+      LibGastonGraphEdge& currEdge = graph.Edges[edgeInd++];
+      currEdge.From = i;
+      currEdge.To = edge.tonode;
+      currEdge.Label = database.edgelabels[
+					  database.edgelabelsindexes[edge.edgelabel]
+					  ].inputedgelabel;
+    }
+  }
+}
+void GraphState::deleteGraph(LibGastonGraph& graph)
+{
+  delete[] graph.Vertices;
+  delete[] graph.Edges;
+  graph.VertexCount = 0;
+  graph.EdgeCount = 0;
 }
 
 /////////////////////////////////////////////////////////////////////

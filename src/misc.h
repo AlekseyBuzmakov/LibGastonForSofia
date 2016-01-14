@@ -2,6 +2,9 @@
 // Siegfried Nijssen, snijssen@liacs.nl, jan 2004.
 #ifndef MISC_H
 #define MISC_H
+
+#include <LibGastonForSofia.h>
+
 #include <vector>
 #include <stdio.h>
 using namespace std;
@@ -36,14 +39,13 @@ extern Frequency minfreq;
 
 #define store(a,b) { if ( (b).elements.capacity () - (b).elements.size () > (b).elements.size () / 2 ) (a) = (b); else swap ( (a), (b) ); }
 
-extern bool dooutput;
 extern int phase; // 3 : all, 2 : paths and trees, 1 : paths
 extern int maxsize; // maximal size
+extern ReportGraphCallback callback; // The callback function that is used to report graphs.
 
 void puti ( FILE *f, int i );
-extern FILE *output;
 
-#define OUTPUT(frequency) if ( dooutput  ) { putc ( '#', output ); putc ( ' ', output ); puti ( output, frequency ); putc ( '\n', output ); graphstate.print ( output ); }
+/* #define OUTPUT(frequency) if ( dooutput  ) { putc ( '#', output ); putc ( ' ', output ); puti ( output, frequency ); putc ( '\n', output ); graphstate.print ( output ); } */
 
 inline void setmax ( short unsigned int &a, short unsigned int b ) { if ( b > a ) a = b; }
 

@@ -45,6 +45,8 @@ struct LibGastonGraph {
   VertexLabelType* Vertices;
   // List of edges, the size is equal EdgesCount
   LibGastonGraphEdge* Edges;
+  // The support of this graph
+  int Support;
 };
 
 /**
@@ -63,6 +65,6 @@ typedef bool (LibGastonAPI *ReportGraphCallback)( const LibGastonGraph* graph );
  * @param mode is the mode of the algorithm. It could discover either all graphs or only trees or pathes.
  * @return is the success of the operation.
  */
-bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraphCallback* callback, int maxsize = -1, TGastonRunningMode mode = GRM_All );
+bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraphCallback callback, int maxsize = -1, TGastonRunningMode mode = GRM_All );
 
 #endif

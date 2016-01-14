@@ -37,7 +37,7 @@ void PatternGraph::expand () {
         }
       }
     }
-    OUTPUT(frequency)
+    OUTPUT(frequency);
     int addsize = statistics.patternsize + graphstate.edgessize - graphstate.nodes.size ();
     if ( addsize >= statistics.frequenttreenumbers.size () ) {
       statistics.frequenttreenumbers.resize ( addsize + 1, 0 );

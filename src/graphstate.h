@@ -85,7 +85,25 @@ class GraphState {
     void reinsertEdge (); // reinserts last edge on the stack
     NodeId lastNode () const { return nodes.size () - 1; }
     void print ( FILE *f );
+
+    // Saves graph to a graph structures
+    void getGraph(LibGastonGraph& graph);
+    // Clears allocated memory by getGraph();
+    void deleteGraph(LibGastonGraph& graph);
+
 };
+
+inline bool OUTPUT( int frequency ) {
+  if( callback == 0 ) {
+    return true;
+  }
+  LibGastonGraph graph;
+  graph.Support = frequency;
+  graphstate.getGraph(graph);
+  const bool res = callback(&graph);
+  graphstate.deleteGraph(graph);
+  return res;
+}
 
 /////////////////////////////////////////////////////////////////////
 } // end of namespace LibGaston
