@@ -93,6 +93,8 @@ class GraphState {
 
 };
 
+extern LibGastonDataRef  callbackData;
+
 inline bool OUTPUT( int frequency ) {
   if( callback == 0 ) {
     return true;
@@ -100,7 +102,7 @@ inline bool OUTPUT( int frequency ) {
   LibGastonGraph graph;
   graph.Support = frequency;
   graphstate.getGraph(graph);
-  const bool res = callback(&graph);
+  const bool res = callback( callbackData, &graph);
   graphstate.deleteGraph(graph);
   return res;
 }

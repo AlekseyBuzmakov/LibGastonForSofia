@@ -29,11 +29,12 @@ Database database;
 Statistics statistics;
 int phase = 3;
 int maxsize = ( 1 << ( sizeof(NodeId)*8 ) ) - 1; // safe default for the largest allowed pattern
+LibGastonDataRef callbackData = 0; // A data that is always passed to the callback.
 ReportGraphCallback callback = 0; // The callback function that is used to report graphs.
 
 FILE* output;
 // A simple callback function that just print the result in a similar way as the original algorith did (it prints the graph to 'ouput' file)
-bool LibGastonAPI PrintToFileCallback( const LibGastonGraph* graph )
+bool LibGastonAPI PrintToFileCallback( LibGastonDataRef, const LibGastonGraph* graph )
 {
   assert( graph != 0 );
 
@@ -107,7 +108,9 @@ void puti ( FILE *f, int i ) {
 
 using namespace LibGaston;
 
-bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraphCallback callbackArg, int maxsizeArg /*= -1*/, TGastonRunningMode mode /*= GRM_All*/ ) {
+bool LibGastonAPI RunGaston( LibGastonDataRef data,
+    const char* inputFileName, int support, ReportGraphCallback callbackArg, int maxsizeArg /*= -1*/, TGastonRunningMode mode /*= GRM_All*/ )
+{
   
   clock_t t1 = clock ();
   cerr << "GASTON GrAph, Sequences and Tree ExtractiON algorithm" << endl;
@@ -116,6 +119,7 @@ bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraph
 
   // Converting options to internal Gaston representation
   minfreq = support;
+  callbackData = data;
   callback = callbackArg;
   if( maxsizeArg > 0 ) {
     maxsize = maxsizeArg;
@@ -186,7 +190,7 @@ int main ( int argc, char *argv[] ) {
     output = fopen ( argv[optind+2], "w" );
   }
 
-  RunGaston(inputFileName, support, callback, maxsizeArg, mode );
+  RunGaston( 0, inputFileName, support, callback, maxsizeArg, mode );
 
   clock_t t2 = clock ();
   cout << "Approximate total runtime: " << ( (float) t2 - t1 ) / CLOCKS_PER_SEC << "s" << endl;

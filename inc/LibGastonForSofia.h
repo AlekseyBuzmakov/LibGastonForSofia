@@ -53,12 +53,15 @@ struct LibGastonGraph {
   int Support;
 };
 
+// Any data that should be passed to callback.
+typedef void* LibGastonDataRef;
+
 /**
  * A type of function that is used for reporting newly found graphs
  * @param graph is the reported graph
  * @return returns if the graph should be further expanded
  */
-typedef bool (LibGastonAPI *ReportGraphCallback)( const LibGastonGraph* graph );
+typedef bool (LibGastonAPI *ReportGraphCallback)( LibGastonDataRef data, const LibGastonGraph* graph );
 
 /**
  * This function that runs gaston on the input dataset.
@@ -69,7 +72,8 @@ typedef bool (LibGastonAPI *ReportGraphCallback)( const LibGastonGraph* graph );
  * @param mode is the mode of the algorithm. It could discover either all graphs or only trees or pathes.
  * @return is the success of the operation.
  */
-bool LibGastonAPI RunGaston( const char* inputFileName, int support, ReportGraphCallback callback, int maxsize = -1, TGastonRunningMode mode = GRM_All );
+bool LibGastonAPI RunGaston( LibGastonDataRef data,
+    const char* inputFileName, int support, ReportGraphCallback callback, int maxsize = -1, TGastonRunningMode mode = GRM_All );
 
 #ifdef __cplusplus
 }
