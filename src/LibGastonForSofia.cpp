@@ -131,7 +131,7 @@ bool LibGastonAPI RunGaston( LibGastonDataRef data,
   case GRM_Trees:
     phase = 2;
     break;
-  case GRM_Paths:
+  case GRM_Pathes:
     phase = 1;
     break;
   default:
@@ -173,7 +173,7 @@ int main ( int argc, char *argv[] ) {
     switch ( opt ) {
       case 'm': maxsizeArg = atoi ( optarg ) - 1; break;
       case 't': mode = GRM_Trees; break;
-      case 'p': mode = GRM_Paths; break;
+      case 'p': mode = GRM_Pathes; break;
     }
   }
     

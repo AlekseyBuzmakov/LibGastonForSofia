@@ -1184,8 +1184,10 @@ void GraphState::deleteGraph(LibGastonGraph& graph)
 {
   delete[] graph.Vertices;
   delete[] graph.Edges;
+  delete[] graph.Objects;
   graph.VertexCount = 0;
   graph.EdgeCount = 0;
+  graph.Support = 0;
 }
 
 /////////////////////////////////////////////////////////////////////

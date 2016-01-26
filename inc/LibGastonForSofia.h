@@ -1,7 +1,7 @@
 #ifndef _LibGastonForSofia_H_
 #define _LibGastonForSofia_H_
 
-#ifndef WIN32 
+#ifndef WIN32
 #define __stdcall
 #endif
 
@@ -18,7 +18,7 @@ enum TGastonRunningMode {
   // Only tree-like graphs (including pathes)
   GRM_Trees,
   // Only pathes
-  GRM_Paths,
+  GRM_Pathes,
 
   GRM_EnumCount
 };
@@ -51,6 +51,8 @@ struct LibGastonGraph {
   LibGastonGraphEdge* Edges;
   // The support of this graph
   int Support;
+  // The set of objects covering this pattern. Length of Objects is @var Support.
+  int* Objects;
 };
 
 // Any data that should be passed to callback.
@@ -72,6 +74,8 @@ typedef bool (LibGastonAPI *ReportGraphCallback)( LibGastonDataRef data, const L
  * @param mode is the mode of the algorithm. It could discover either all graphs or only trees or pathes.
  * @return is the success of the operation.
  */
+typedef bool (LibGastonAPI *RunGastonFunc)( LibGastonDataRef data,
+    const char* inputFileName, int support, ReportGraphCallback callback, int maxsize/* = -1*/, TGastonRunningMode mode/* = GRM_All*/ );
 bool LibGastonAPI RunGaston( LibGastonDataRef data,
     const char* inputFileName, int support, ReportGraphCallback callback, int maxsize = -1, TGastonRunningMode mode = GRM_All );
 
