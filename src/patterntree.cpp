@@ -224,7 +224,7 @@ PatternTree::PatternTree ( Path &path, unsigned int legindex ) :
 {
   PathLeg &leg = (*path.legs[legindex]);
   
-  OUTPUT(path.legs[legindex]->occurrences.frequency);
+  OUTPUT(path.legs[legindex]->occurrences);
       
   maxdepth = path.edgelabels.size () / 2 - 1;
   int leftwalk, leftstart, rightwalk, rightstart;
@@ -652,7 +652,7 @@ PatternTree::PatternTree ( PatternTree &parenttree, unsigned int legindex ) :
 {
   Leg &leg = * ( parenttree.legs[legindex] );
     
-  shouldExpand = OUTPUT(parenttree.legs[legindex]->occurrences.frequency);
+  shouldExpand = OUTPUT(parenttree.legs[legindex]->occurrences);
   if(!shouldExpand) {
     return;
   }

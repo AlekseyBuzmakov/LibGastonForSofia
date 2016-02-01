@@ -8,6 +8,9 @@
 #include "database.h"
 #include "closeleg.h"
 #include "patterntree.h"
+
+#include <assert.h>
+
 using namespace std;
 
 namespace LibGaston {
@@ -95,12 +98,82 @@ class GraphState {
 
 extern LibGastonDataRef  callbackData;
 
+inline bool OUTPUT( const LegOccurrences& occs ) {
+  if( callback == 0 ) {
+    return true;
+  }
+  LibGastonGraph graph;
+  graph.Support = occs.frequency;
+
+  // Collecting unique tids
+  graph.Objects = new int[graph.Support];
+  const int elemsCount = occs.elements.size(); 
+  Tid lastTid = -1;
+  int uniqueTidCount = 0;
+  for( int i = 0; i < elemsCount; ++i ) {
+	  if( lastTid == occs.elements[i].tid ) {
+		  continue;
+	  }
+
+	  assert( uniqueTidCount < graph.Support );
+	  lastTid = occs.elements[i].tid;
+	  graph.Objects[uniqueTidCount] = lastTid; 
+	  ++uniqueTidCount;
+  }
+  assert( uniqueTidCount == graph.Support );
+  
+  graphstate.getGraph(graph);
+  const bool res = callback( callbackData, &graph);
+
+  graphstate.deleteGraph(graph);
+  return res;
+}
+
+inline bool OUTPUT( const CloseLegOccurrences& occs ) {
+  if( callback == 0 ) {
+    return true;
+  }
+  LibGastonGraph graph;
+  graph.Support = occs.frequency;
+
+  // Collecting unique tids
+  graph.Objects = new int[graph.Support];
+  const int elemsCount = occs.elements.size(); 
+  Tid lastTid = -1;
+  int uniqueTidCount = 0;
+  for( int i = 0; i < elemsCount; ++i ) {
+	  if( lastTid == occs.elements[i].tid ) {
+		  continue;
+	  }
+
+	  assert( uniqueTidCount < graph.Support );
+	  lastTid = occs.elements[i].tid;
+	  graph.Objects[uniqueTidCount] = lastTid; 
+	  ++uniqueTidCount;
+  }
+  assert( uniqueTidCount == graph.Support );
+  
+  graphstate.getGraph(graph);
+  const bool res = callback( callbackData, &graph);
+
+  graphstate.deleteGraph(graph);
+  return res;
+}
+
 inline bool OUTPUT( int frequency ) {
   if( callback == 0 ) {
     return true;
   }
   LibGastonGraph graph;
   graph.Support = frequency;
+
+  // TODO
+  graph.Objects = new int[frequency];
+  for( int i = 0; i < frequency; ++i ) {
+	  graph.Objects[i]=0;
+  }
+  // EndOF: TODO
+  
   graphstate.getGraph(graph);
   const bool res = callback( callbackData, &graph);
   graphstate.deleteGraph(graph);

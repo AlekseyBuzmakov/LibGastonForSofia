@@ -60,64 +60,64 @@ LegOccurrencesPtr join ( LegOccurrences &legoccsdata1, NodeId connectingnode, Le
   Tid lastself = NOTID;
 
   do {
-    while ( j < legoccs1size && legoccs1[j].occurrenceid < legoccs2[k].occurrenceid ) {
-      j++;
-    }
-    if ( j < legoccs1size ) {
-      LegOccurrence &jlegocc = legoccs1[j];
-      while ( k < legoccs2size && legoccs2[k].occurrenceid < jlegocc.occurrenceid ) {
-        k++;
-      }
-      if ( k < legoccs2size ) {
-        if ( legoccs2[k].occurrenceid == jlegocc.occurrenceid ) {
-          m = j;
-          do {
-            j++;
-          }
-          while ( j < legoccs1size && legoccs1[j].occurrenceid == jlegocc.occurrenceid );
-          l = k;
-          do {
-            k++;
-          }
-          while ( k < legoccs2size && legoccs2[k].occurrenceid == jlegocc.occurrenceid );
-	  bool add = false;
-          for ( OccurrenceId m2 = m; m2 < j; m2++ ) {
-            int d = 0;
-            for ( OccurrenceId l2 = l; l2 < k; l2++ ) {
-	      NodeId tonodeid = legoccs2[l2].tonodeid;
-              if ( legoccs1[m2].tonodeid !=  tonodeid ) {
-                legoccurrences.elements.push_back ( LegOccurrence ( jlegocc.tid, m2, tonodeid, legoccs2[l2].fromnodeid ) );
-                setmax ( legoccurrences.maxdegree, database.trees[jlegocc.tid]->nodes[tonodeid].edges.size () );
-		add = true;
-		d++;
-              }
-            }
-	    if ( d > 1 && jlegocc.tid != lastself ) {
-	      lastself = jlegocc.tid;
-	      legoccurrences.selfjoin++;
-	    }
+	  while ( j < legoccs1size && legoccs1[j].occurrenceid < legoccs2[k].occurrenceid ) {
+		  j++;
 	  }
-	  	  
-	  if ( jlegocc.tid != lasttid && add ) {
-            lasttid = jlegocc.tid;
-	    frequency++;
-	  }
+	  if ( j < legoccs1size ) {
+		  LegOccurrence &jlegocc = legoccs1[j];
+		  while ( k < legoccs2size && legoccs2[k].occurrenceid < jlegocc.occurrenceid ) {
+			  k++;
+		  }
+		  if ( k < legoccs2size ) {
+			  if ( legoccs2[k].occurrenceid == jlegocc.occurrenceid ) {
+				  m = j;
+				  do {
+					  j++;
+				  }
+				  while ( j < legoccs1size && legoccs1[j].occurrenceid == jlegocc.occurrenceid );
+				  l = k;
+				  do {
+					  k++;
+				  }
+				  while ( k < legoccs2size && legoccs2[k].occurrenceid == jlegocc.occurrenceid );
+				  bool add = false;
+				  for ( OccurrenceId m2 = m; m2 < j; m2++ ) {
+					  int d = 0;
+					  for ( OccurrenceId l2 = l; l2 < k; l2++ ) {
+						  NodeId tonodeid = legoccs2[l2].tonodeid;
+						  if ( legoccs1[m2].tonodeid !=  tonodeid ) {
+							  legoccurrences.elements.push_back ( LegOccurrence ( jlegocc.tid, m2, tonodeid, legoccs2[l2].fromnodeid ) );
+							  setmax ( legoccurrences.maxdegree, database.trees[jlegocc.tid]->nodes[tonodeid].edges.size () );
+							  add = true;
+							  d++;
+						  }
+					  }
+					  if ( d > 1 && jlegocc.tid != lastself ) {
+						  lastself = jlegocc.tid;
+						  legoccurrences.selfjoin++;
+					  }
+				  }
+		  
+				  if ( jlegocc.tid != lasttid && add ) {
+					  lasttid = jlegocc.tid;
+					  frequency++;
+				  }
 
-          if ( k == legoccs2size )
-            break;
-        }
-      }
-      else
-        break;
-    }
-    else
-      break;
+				  if ( k == legoccs2size )
+					  break;
+			  }
+		  }
+		  else
+			  break;
+	  }
+	  else
+		  break;
   }
   while ( true );
 
   if ( frequency >= minfreq ) {
-    legoccurrences.parent = &legoccsdata1;
-    legoccurrences.number = legoccsdata1.number + 1;
+	legoccurrences.parent = &legoccsdata1;
+	legoccurrences.number = legoccsdata1.number + 1;
     legoccurrences.frequency = frequency;
     return &legoccurrences;
   }

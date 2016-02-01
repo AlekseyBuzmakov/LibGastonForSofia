@@ -37,7 +37,8 @@ void PatternGraph::expand () {
         }
       }
     }
-    if( !OUTPUT(frequency) ) {
+    assert((*closelegssource)[legindex]->occurrences.frequency == frequency);
+    if( !OUTPUT((*closelegssource)[legindex]->occurrences) ) {
       return;
     }
     int addsize = statistics.patternsize + graphstate.edgessize - graphstate.nodes.size ();

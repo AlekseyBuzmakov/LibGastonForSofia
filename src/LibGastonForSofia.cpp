@@ -67,6 +67,12 @@ bool LibGastonAPI PrintToFileCallback( LibGastonDataRef, const LibGastonGraph* g
     puti ( output, (int) graph->Edges[i].Label );
     putc ( '\n', output );
   }
+  putc( 'x', output );
+  for( int i = 0; i < graph->Support; ++i ) {
+	  putc( ' ', output );
+	  puti( output, (int) graph->Objects[i] );
+  }
+  putc( '\n', output );
   
   return true;
 }

@@ -83,7 +83,7 @@ Path::Path ( Path &parentpath, unsigned int legindex ) :
   PathLeg &leg = (*parentpath.legs[legindex]);
   int positionshift;
   
-  shouldExpand = OUTPUT(parentpath.legs[legindex]->occurrences.frequency);
+  shouldExpand = OUTPUT(parentpath.legs[legindex]->occurrences);
   if( !shouldExpand ) {
     return;
   }
@@ -398,7 +398,7 @@ void Path::expand2 () {
            closelegs[i]->tuple.to == to &&
            isnormal ( closelegs[i]->tuple.label ) ) {
         graphstate.insertEdge ( closelegs[i]->tuple.from, closelegs[i]->tuple.to, closelegs[i]->tuple.label );
-        OUTPUT(closelegs[i]->occurrences.frequency);
+        OUTPUT(closelegs[i]->occurrences);
 	// Does not matter if the graph is needed since it is not growing recursively
 
         int addsize = statistics.patternsize + graphstate.edgessize - graphstate.nodes.size ();
