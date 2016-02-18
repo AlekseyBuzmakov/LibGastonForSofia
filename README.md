@@ -14,7 +14,7 @@ Moreover, it has three steps. The first step is mining of pathes. The second ste
 ## Interface of the LibGastonForSofia library
 The interface of the library can be found in the [include file](https://github.com/AlekseyBuzmakov/LibGastonForSofia/blob/master/inc/LibGastonForSofia.h).
 
-It consist of one function **RunGaston** that accepts the same parameters as the original implementation plus a reference to the callback function an an arbitrary data pointer passed to the callback function.
+It consist of one function **RunGaston** that accepts the same parameters as the original implementation plus a reference to the callback function and an arbitrary data pointer passed to the callback function.
 The introduction of the callback function allows for a flexibal interaction with the **Gaston** algorithm.
 ```c++
 /**
@@ -90,4 +90,4 @@ typedef void* LibGastonDataRef;
 ```
 
 ### The **return** value of the callback function.
-The callback function returns a boolean value that adds an aditional control over **Gaston**. It is very usefull for branch cutting. Basically it returns the necessity of the expanision of the current graph pattern. If the user knows somehow that the current graph and all its supergraph is of no use, it can return **false** from callback function by saving some computational time. If the callback function always returns **true**, then the result is exactly the same as the one returned by original **Gaston** with the corresponding parameters.
+The callback function returns a boolean value that adds an aditional control over **Gaston**. It is very usefull for branch cutting. Basically it returns the necessity of the expanision of the current graph pattern. If the user knows somehow that the current graph and all its supergraph is of no use, it can return **false** from the callback function saving some computational time. If the callback function always returns **true**, then the result is exactly the same as the one returned by original **Gaston** with the corresponding parameters.
