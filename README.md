@@ -14,7 +14,7 @@ Moreover, it has three steps. The first step is mining of pathes. The second ste
 ## Interface of the LibGastonForSofia library
 The interface of the library can be found in the [include file](https://github.com/AlekseyBuzmakov/LibGastonForSofia/blob/master/inc/LibGastonForSofia.h).
 
-It consist of one function **RunGaston** that accepts the same parameters as the original implementation plus a reference to the callback function.
+It consist of one function **RunGaston** that accepts the same parameters as the original implementation plus a reference to the callback function an an arbitrary data pointer passed to the callback function.
 The introduction of the callback function allows for a flexibal interaction with the **Gaston** algorithm.
 ```c++
 /**
