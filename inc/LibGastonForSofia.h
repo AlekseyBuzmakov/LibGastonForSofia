@@ -1,7 +1,7 @@
 #ifndef _LibGastonForSofia_H_
 #define _LibGastonForSofia_H_
 
-#ifndef WIN32
+#ifndef _WIN32
 #define __stdcall
 #endif
 
