@@ -147,12 +147,15 @@ void Database::readTree ( FILE *input, Tid tid ) {
       edgelabel.fromnodelabel = node1label;
       edgelabel.tonodelabel = node2label;
       edgelabel.inputedgelabel = inputedgelabel;
+      // edgelabel.tidset.push_back(tid);
       edgelabel.lasttid = tid;
     }
     else {
       DatabaseEdgeLabel &edgelabel = edgelabels[p.first->second];
-      if ( edgelabel.lasttid != tid )
+      if ( edgelabel.lasttid != tid ) {
         edgelabel.frequency++;
+	// edgelabel.tidset.push_back(tid);
+      }
       edgelabel.lasttid = tid;
     }
 
@@ -173,9 +176,9 @@ void Database::readTree ( FILE *input, Tid tid ) {
   int pos = 0;
   for ( int i = 0; i < nodessize; i++ ) {
     int s = edges[i].size ();
-    tree->nodes[i].edges._size = s;
-    tree->nodes[i].edges.array = tree->edges + pos;
+    tree->nodes[i].edges.init(tree->edges + pos,s);
     for ( int j = 0; j < s; j++, pos++ ) {
+      assert( pos < edgessize * 2 );
       tree->edges[pos] = edges[i][j];
     }
   }

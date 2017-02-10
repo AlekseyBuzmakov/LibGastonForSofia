@@ -6,13 +6,14 @@ CPPS=LibGastonForSofia.cpp database.cpp patterntree.cpp closeleg.cpp patterngrap
 OBJS=$(patsubst %.cpp, $(ObjDir)/%.o, $(CPPS))
 
 GCC=g++ -fPIC -O3 $(IncDirs)
+#GCC=g++ -fPIC -g -DDEBUG -D_DEBUG $(IncDirs)
 
 bin/Release/libGaston.so: prepare $(OBJS)
 	$(GCC) -shared -o bin/Release/libGaston.so $(OBJS) 
 test: prepare $(OBJS)
 	$(GCC) -o bin/Release/test $(OBJS) 
 clean:
-	rm $(OBJS); rm bin/Release/gaston
+	rm $(OBJS); rm bin/Release/test
 
 prepare:
 	test -d $(ObjDir) || mkdir $(ObjDir)

@@ -12,8 +12,8 @@ using namespace std;
 namespace LibGaston {
 ////////////////////////////////////////////////////////////////////////
 
-typedef unsigned char EdgeLabel; // combined node-edge label of the input file.
-typedef unsigned char NodeLabel;
+typedef unsigned short EdgeLabel; // combined node-edge label of the input file.
+typedef unsigned short NodeLabel;
 typedef unsigned short NodeId;
 typedef unsigned int Depth; // unsigned int is more efficient than short, but requires more memory...
 typedef unsigned int Tid;

@@ -114,6 +114,7 @@ inline bool OUTPUT( const LegOccurrences& occs ) {
 	  if( lastTid == occs.elements[i].tid ) {
 		  continue;
 	  }
+	  assert(lastTid == -1 || lastTid < occs.elements[i].tid);
 
 	  assert( uniqueTidCount < graph.Support );
 	  lastTid = occs.elements[i].tid;

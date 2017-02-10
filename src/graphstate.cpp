@@ -7,6 +7,7 @@
 #include "assert.h"
 
 #include <queue>
+#include <stdlib.h>
 
 namespace LibGaston {
 ////////////////////////////////////////////////////////////////////////
@@ -108,9 +109,9 @@ void readDebug () {
   int pos = 0;
   for ( int i = 0; i < nodessize; i++ ) {
     int s = edges[i].size ();
-    tree->nodes[i].edges._size = s;
-    tree->nodes[i].edges.array = tree->edges + pos;
+    tree->nodes[i].edges.init(tree->edges + pos,s);
     for ( int j = 0; j < s; j++, pos++ ) {
+	    assert(pos < edgessize * 2);
       tree->edges[pos] = edges[i][j];
     }
   }
@@ -148,7 +149,7 @@ GraphState::GraphState () {
 
 void GraphState::init () {
 #ifdef DEBUG
-  readDebug ();
+  //readDebug ();
 #endif
   edgessize = 0;
   closecount = 0;

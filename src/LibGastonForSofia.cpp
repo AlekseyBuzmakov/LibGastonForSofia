@@ -154,8 +154,13 @@ bool LibGastonAPI RunGaston( LibGastonDataRef data,
   cerr << "Reorder" << endl;
   database.reorder ();
 
+  cerr << "InitLegStatics" << endl;
   initLegStatics();
+  cerr << "graphstate.init()" << endl;
   graphstate.init ();
+
+  cerr << "Main Procedure" << endl;
+
   for ( int i = 0; i < database.nodelabels.size (); i++ ) {
     if ( database.nodelabels[i].frequency >= minfreq &&
          database.nodelabels[i].frequentedgelabels.size () ) {

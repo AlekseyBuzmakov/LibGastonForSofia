@@ -1,10 +1,11 @@
-// path.cpp
 // Siegfried Nijssen, snijssen@liacs.nl, jan 2004.
 #include <algorithm>
 #include "patterntree.h"
 #include "patterngraph.h"
 #include "path.h"
 #include "graphstate.h"
+
+#include <assert.h>
 
 namespace LibGaston {
 ////////////////////////////////////////////////////////////////////////
@@ -67,6 +68,8 @@ Path::Path ( NodeLabel startnodelabel ) :
         leg.occurrences.selfjoin++;
         lastself[edgelabel] = tree.tid;
       }
+      // Are they sorted -- YES
+      assert( leg.occurrences.elements.empty() || leg.occurrences.elements.back().tid <= tree.tid);
       vector_push_back ( LegOccurrence, leg.occurrences.elements, legoccurrence );
       legoccurrence.tid = tree.tid;
       legoccurrence.occurrenceid = i;

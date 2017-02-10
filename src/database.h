@@ -9,6 +9,8 @@
 #include "legoccurrence.h"
 #include "misc.h"
 
+#include <assert.h>
+
 namespace LibGaston {
 ////////////////////////////////////////////////////////////////////////
 
@@ -28,14 +30,15 @@ typedef unsigned int CombinedInputLabel;
 template<class T>
 class pvector {
 public:
+  pvector<T> (): array(0), _size(0) { }
+  void init(T* ar, int s) { assert( array == 0 && _size == 0); array=ar;_size=s;}
+  inline int size () const { return _size; }
+  void resize ( int s ) { assert( s <= _size );  _size = s; }
+  void clear () { array = 0; _size = 0; } // cannot remove allocation, as we are not managing that memory here 
+  T &operator[] ( int i ) { assert(i < _size);return array[i]; }
+private:
   T *array;
   int _size;
-  pvector<T> ( T *array, int _size ): array ( array ), _size ( _size ) { }
-  pvector<T> () { }
-  inline int size () const { return _size; }
-  void resize ( int s ) { _size = s; }
-  void clear () { _size = 0; } // cannot remove allocation, as we are not managing that memory here 
-  T &operator[] ( int i ) { return array[i]; }
 };
 
 struct DatabaseTreeEdge {
@@ -87,6 +90,7 @@ struct DatabaseEdgeLabel {
   NodeLabel tonodelabel, fromnodelabel; 
   EdgeLabel edgelabel; // the (order) edge label to which this entry corresponds during the search
   Frequency frequency;
+  // vector<Tid> tidset;
   Tid lasttid;
 
   DatabaseEdgeLabel (): frequency ( 1 ) { }
