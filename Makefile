@@ -26,7 +26,7 @@ lib: prepare $(OBJS)
 test: prepare $(OBJS)
 	$(GCC)  -o $(BINDIR)/test $(OBJS) 
 clean:
-	rm $(OBJS); rm -r bin/*
+	rm -r obj/*; rm -r bin/*
 
 prepare:
 	test -d $(ObjDir) || mkdir -p $(ObjDir)

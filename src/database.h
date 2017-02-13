@@ -16,11 +16,26 @@ namespace LibGaston {
 
 using namespace std;
 
-typedef short InputEdgeLabel;
-typedef short InputNodeLabel;
-typedef short InputNodeId;
-typedef unsigned int CombinedInputLabel;
-#define combineInputLabels(label1,label2,label3) (label1 | ( ((unsigned int) label2 ) << 16 ) | ( ( (unsigned int) label3 ) << 24 ) )
+typedef unsigned short InputEdgeLabel;
+typedef unsigned short InputNodeLabel;
+typedef unsigned int InputNodeId;
+
+struct CombinedInputLabel {
+	InputEdgeLabel E;
+	InputNodeLabel N1;
+	InputNodeLabel N2;
+	CombinedInputLabel(InputEdgeLabel e, InputNodeLabel n1, InputNodeLabel n2 ) : N1(n1), N2(n2), E(e) {}
+	CombinedInputLabel() : N1(-1), N2(-1), E(-1) {}
+	CombinedInputLabel( const CombinedInputLabel& other ) : N1(other.N1), N2(other.N2), E(other.E) {}
+};
+
+inline bool operator<(const CombinedInputLabel& l1, const CombinedInputLabel& l2 ) {
+	return l1.N2 < l2.N2 || l1.N2==l2.N2 && l1.N1 < l2.N1 
+		|| l1.N2==l2.N2 && l1.N1==l2.N1 && l1.E < l2.E;
+
+}
+#define combineInputLabels(label1,label2,label3) (CombinedInputLabel(label1,label2,label3))
+//#define combineInputLabels(label1,label2,label3) (label1 | ( ((unsigned int) label2 ) << 16 ) | ( ( (unsigned int) label3 ) << 24 ) )
 // maximum 255 node labels for now.
 
 

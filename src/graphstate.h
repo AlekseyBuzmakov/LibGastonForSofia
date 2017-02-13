@@ -122,11 +122,24 @@ inline bool OUTPUT( const LegOccurrences& occs ) {
 	  ++uniqueTidCount;
   }
   assert( uniqueTidCount == graph.Support );
+  //const bool isSupportKnown=( uniqueTidCount == graph.Support );
+  //graph.Support=uniqueTidCount;
   
   graphstate.getGraph(graph);
   const bool res = callback( callbackData, &graph);
 
   graphstate.deleteGraph(graph);
+
+  //if(!isSupportKnown) {
+	//assert( occs.tidset == 0 || occs.frequency == occs.tidset->size() );
+	//cerr << occs.frequency << ": ";
+	//for( int i = 0; i < occs.tidset->size(); ++i ) {
+		//cerr << (*occs.tidset)[i] << " ";
+	//}	
+	//cerr << endl;
+	//assert(false);
+  //}
+
   return res;
 }
 
@@ -147,6 +160,8 @@ inline bool OUTPUT( const CloseLegOccurrences& occs ) {
 		  continue;
 	  }
 
+	  assert(lastTid == -1 || lastTid < occs.elements[i].tid);
+
 	  assert( uniqueTidCount < graph.Support );
 	  lastTid = occs.elements[i].tid;
 	  graph.Objects[uniqueTidCount] = lastTid; 
@@ -157,26 +172,6 @@ inline bool OUTPUT( const CloseLegOccurrences& occs ) {
   graphstate.getGraph(graph);
   const bool res = callback( callbackData, &graph);
 
-  graphstate.deleteGraph(graph);
-  return res;
-}
-
-inline bool OUTPUT( int frequency ) {
-  if( callback == 0 ) {
-    return true;
-  }
-  LibGastonGraph graph;
-  graph.Support = frequency;
-
-  // TODO
-  graph.Objects = new int[frequency];
-  for( int i = 0; i < frequency; ++i ) {
-	  graph.Objects[i]=0;
-  }
-  // EndOF: TODO
-  
-  graphstate.getGraph(graph);
-  const bool res = callback( callbackData, &graph);
   graphstate.deleteGraph(graph);
   return res;
 }

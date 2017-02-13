@@ -50,6 +50,7 @@ Path::Path ( NodeLabel startnodelabel ) :
     lastself[i] = NOTID;
     DatabaseEdgeLabel &databaseedgelabel = database.edgelabels[database.edgelabelsindexes[frequentedgelabels[i]]];
     leg->occurrences.frequency = databaseedgelabel.frequency;
+    //leg->occurrences.tidset = &databaseedgelabel.tidset;
     if ( databaseedgelabel.fromnodelabel == startnodelabel )
       leg->tuple.nodelabel = databaseedgelabel.tonodelabel;
     else
@@ -68,6 +69,14 @@ Path::Path ( NodeLabel startnodelabel ) :
         leg.occurrences.selfjoin++;
         lastself[edgelabel] = tree.tid;
       }
+      // TO KILL
+      //if( leg.occurrences.tidset != 0 ) {
+	      //vector<Tid>& v = *leg.occurrences.tidset;
+	      //if(find(v.begin(),v.end(),tree.tid) == v.end()) {
+		      //assert(false);
+	      //}
+      //}
+
       // Are they sorted -- YES
       assert( leg.occurrences.elements.empty() || leg.occurrences.elements.back().tid <= tree.tid);
       vector_push_back ( LegOccurrence, leg.occurrences.elements, legoccurrence );

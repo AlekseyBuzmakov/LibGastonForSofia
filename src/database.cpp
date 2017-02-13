@@ -88,6 +88,7 @@ void Database::readTree ( FILE *input, Tid tid ) {
   while ( command == 'v' ) {
     dummy = readint ( input );
     inputnodelabel = readint ( input );
+    assert(inputnodelabel <  static_cast<InputNodeLabel>(-1) );
     if ( dummy != nodessize ) {
       cerr << "Error reading input file - node number does not correspond to its position." << endl;
       exit ( 1 );
@@ -131,6 +132,13 @@ void Database::readTree ( FILE *input, Tid tid ) {
     nodeid1 = readint ( input );
     nodeid2 = readint ( input );
     inputedgelabel = readint ( input );
+    assert(inputedgelabel  <  static_cast<InputEdgeLabel>(-1) );
+    if( !(0 <= nodeid1 && nodeid1 < tree->nodes.size()
+			    && 0 <= nodeid2 && nodeid2 < tree->nodes.size() ) )
+    {
+	    cerr << "ERROR: Bad vertex id in graph with ID = " << tid << " n1=" << nodeid1 << " n2=" << nodeid2 << " e=" << inputedgelabel << endl;
+	    throw -1;
+    }
     NodeLabel node2label = tree->nodes[nodeid2].nodelabel;
     NodeLabel node1label = tree->nodes[nodeid1].nodelabel;
     CombinedInputLabel combinedinputlabel;
