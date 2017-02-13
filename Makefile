@@ -1,24 +1,36 @@
-ObjDir = obj
+ifeq ($(mode),debug) 
+	CPPFLAGS= $(DEF_CPPFLAG) -g -DDEBUG -D_DEBUG 
+else
+	CPPFLAGS= $(DEF_CPPFLAG) -O3 -DNDEBUG
+	mode=release
+endif
+
+ObjDir = obj/$(mode)
 IncDir= inc
 SrcDir = src
 IncDirs = -I$(IncDir)
 CPPS=LibGastonForSofia.cpp database.cpp patterntree.cpp closeleg.cpp patterngraph.cpp graphstate.cpp legoccurrence.cpp path.cpp
+
+DEF_CPPFLAG= -fPIC $(IncDirs)
+BINDIR=bin/$(mode)
+
+GCC=g++ $(CPPFLAGS) 
+
 OBJS=$(patsubst %.cpp, $(ObjDir)/%.o, $(CPPS))
 
-GCC=g++ -fPIC -O3 $(IncDirs)
-#GCC=g++ -fPIC -g -DDEBUG -D_DEBUG $(IncDirs)
+default: lib
+all: lib test
 
-bin/Release/libGaston.so: prepare $(OBJS)
-	$(GCC) -shared -o bin/Release/libGaston.so $(OBJS) 
+lib: prepare $(OBJS)
+	$(GCC) -shared -o $(BINDIR)/libGaston.so $(OBJS) 
 test: prepare $(OBJS)
-	$(GCC) -o bin/Release/test $(OBJS) 
+	$(GCC)  -o $(BINDIR)/test $(OBJS) 
 clean:
-	rm $(OBJS); rm bin/Release/test
+	rm $(OBJS); rm -r bin/*
 
 prepare:
-	test -d $(ObjDir) || mkdir $(ObjDir)
-	test -d bin || mkdir bin
-	test -d bin/Release || mkdir bin/Release
+	test -d $(ObjDir) || mkdir -p $(ObjDir)
+	test -d $(BINDIR) || mkdir -p $(BINDIR)
 $(ObjDir)/database.o: $(SrcDir)/database.cpp $(SrcDir)/database.h
 	$(GCC) -c $(SrcDir)/database.cpp -o $(ObjDir)/database.o
 database.h: $(SrcDir)/legoccurrence.h $(SrcDir)/misc.h
