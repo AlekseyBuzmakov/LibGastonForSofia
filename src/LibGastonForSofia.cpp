@@ -170,6 +170,8 @@ bool LibGastonAPI RunGaston( LibGastonDataRef data,
   }
 
   statistics.print ();
+
+  return true;
 }
 
 // A test wrap-up function for the implementation of the api.
